@@ -87,21 +87,3 @@ def split_data(df):
                                        test_size=.3, 
                                        random_state=123)
     return train, validate, test
-
-def model_sets(train,validate,test):
-    '''
-    Function drops the target of taxvaluedollarcnt column then splits data into 
-    predicting variables (x) and target variable (y)
-    ''' 
-
-    x_train = train.drop(columns=['taxvaluedollarcnt'])
-    y_train = train.taxvaluedollarcnt
-
-
-    x_validate = validate.drop(columns=['taxvaluedollarcnt'])
-    y_validate = validate.taxvaluedollarcnt
-
-    x_test = test.drop(columns=['taxvaluedollarcnt'])
-    y_test = test.taxvaluedollarcnt
-
-    return x_train, y_train, x_validate, y_validate, x_test, y_test
