@@ -21,20 +21,21 @@ def get_stats_sqft(train):
         print('We fail to reject the null hypothesis')
 
     print(f'pearsonsr test = {r:.4f}')
-    
-
-def get_stats_bath(train):
+     
+def get_chi_bath(train):
     '''
-    Function gets results of pearsonsr statistical test for bath_rooms and taxvaluedollarcnt
+    Function gets results of chi-square statistical test for bath_rooms and taxvaluedollarcnt
     '''
 
-    r, p = stats.pearsonr(train.bath_rooms, train.taxvaluedollarcnt)
+    observed = pd.crosstab(train.taxvaluedollarcnt, train.bath_rooms)
+    chi2, p, degf, expected = stats.chi2_contingency(observed)
     if p < alpha:
         print('We reject the null hypothesis')
     else:
         print('We fail to reject the null hypothesis')
 
-    print(f'pearsonsr test = {r:.4f}')
+    print(f'chi^2 = {chi2:.4f}')
+    print(f'p     = {p:.4f}')
 
 def get_stats_built(train):
     '''
@@ -49,25 +50,27 @@ def get_stats_built(train):
 
     print(f'pearsonsr test = {r:.4f}')
 
-def get_stats_bed(train):
+def get_chi_bed(train):
     '''
-    Function gets results of pearsonsr statistical test for bed_rooms and taxvaluedollarcnt
+    Function gets results of chi-square statistical test for bed_rooms and taxvaluedollarcnt
     '''
 
-    r, p = stats.pearsonr(train.bed_rooms, train.taxvaluedollarcnt)
+    observed = pd.crosstab(train.taxvaluedollarcnt, train.bed_rooms)
+    chi2, p, degf, expected = stats.chi2_contingency(observed)
     if p < alpha:
         print('We reject the null hypothesis')
     else:
         print('We fail to reject the null hypothesis')
 
-    print(f'pearsonsr test = {r:.4f}')
+    print(f'chi^2 = {chi2:.4f}')
+    print(f'p     = {p:.4f}')
 
 
 def select_kbest(x_train, y_train):
     '''
     Function gets results of select kbest test for our train data
     '''
-    kbest = SelectKBest(f_regression, k=2)
+    kbest = SelectKBest(f_regression, k=3)
     _ = kbest.fit(x_train, y_train)
     kbest_results = pd.DataFrame(
         dict(p=kbest.pvalues_, f=kbest.scores_),
